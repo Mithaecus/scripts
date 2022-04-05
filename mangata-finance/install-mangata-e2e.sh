@@ -7,6 +7,18 @@ exec racket -e '(printf "Running...\n")' -u "$0" ${1+"$@"}
 
 (require racket/system)
 
-(system "rm -fr mangata-e2e")
-(system "git clone https://github.com/mangata-finance/mangata-e2e")
-(system "cd mangata-e2e && yarn")
+(if 
+    (and (equal?
+            (system/exit-code 
+                "rm -fr mangata-e2e") 
+                0)
+         (equal?
+            (system/exit-code 
+                "git clone https://github.com/mangata-finance/mangata-e2e") 
+                0)
+         (equal?
+            (system/exit-code 
+                "cd mangata-e2e && yarn") 
+                0))
+    (displayln "Installed successfully")
+    (raise-user-error "Installation failed."))
