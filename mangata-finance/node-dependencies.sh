@@ -7,7 +7,6 @@ exec racket -e '(printf "Running...\n")' -u "$0" ${1+"$@"}
 
 (require racket/system)
 
-
 (if 
     (and (equal?
             (system/exit-code 
