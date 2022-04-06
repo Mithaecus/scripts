@@ -7,8 +7,27 @@ exec racket -e '(printf "Running...\n")' -u "$0" ${1+"$@"}
 
 (require racket/system)
 
-(system "curl https://getsubstrate.io -sSf | bash -s -- --fast")
-(system "source ~/.cargo/env ")
-(system "curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain none")
-(system "rustup default nightly-2021-10-19")
-(system "rustup target add wasm32-unknown-unknown")
+
+(if 
+    (and (equal?
+            (system/exit-code 
+                "curl https://getsubstrate.io -sSf | bash -s -- --fast") 
+                0)
+        (equal?
+            (system/exit-code 
+                "source ~/.cargo/env") 
+                0)
+        (equal?
+            (system/exit-code 
+                "curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain none") 
+                0)
+        (equal?
+            (system/exit-code 
+                "rustup default nightly-2021-10-19") 
+                0)
+        (equal?
+            (system/exit-code 
+                "rustup target add wasm32-unknown-unknown") 
+                0))
+    (displayln "Installed successfully")
+    (raise-user-error "Installation failed."))
