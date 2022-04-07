@@ -10,11 +10,12 @@
          #:ssl? #t))
     (define data (read-json response))
 
-    (jsexpr->string	data)
+    (jsexpr->string data)
 
     (define (write-json-wrapper jsexpr filename)
     (call-with-output-file filename
         (λ (x) (write-json jsexpr x))
         #:exists 'replace))
 
-    (write-json-wrapper data (string-append "./" (number->string i) ".json")))
+    (write-json-wrapper data 
+        (string-append "./" (number->string (hash-ref data 'entity_id)) ".json")))
