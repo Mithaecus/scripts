@@ -2,7 +2,7 @@
 
 (require json net/http-client)
 
-(for ([i (in-range 405 1000)])
+(for ([i (in-range 1 1000)])
     (with-handlers ([exn:fail:read? (λ (exn) 'ignore-missing-pages-error)])
         (define-values (status header response)
         (http-sendrecv 
